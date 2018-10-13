@@ -77,11 +77,11 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         SendGrid mock = mock(SendGrid.class);
 
         ((JndiRegistry) ((PropertyPlaceholderDelegateRegistry) context.getRegistry()).getRegistry())
-                .bind("sendgridClient", mock);
+                .bind("sendGridClient", mock);
 
         SendGridComponent component = new SendGridComponent(context);
         SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?"
-                + "sendgridClient=#sendgridClient");
+                + "sendGridClient=#sendGridClient");
 
         assertSame(mock, endpoint.getConfiguration().getSendGridClient());
     }
