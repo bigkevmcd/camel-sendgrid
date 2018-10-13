@@ -24,7 +24,6 @@ public class SendGridComponent extends DefaultComponent {
     public SendGridComponent(CamelContext context) {
         super(context);
         this.configuration = new SendGridConfiguration();
-        registerExtension(new SendGridComponentVerifierExtension());
     }
 
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
@@ -40,7 +39,7 @@ public class SendGridComponent extends DefaultComponent {
             setApiKey(apiKey);
         }
 
-        if (configuration.getApiKey() == null) {
+        if (configuration.getSendGridClient() == null && configuration.getApiKey() == null) {
             throw new IllegalArgumentException("apiKey must be specified");
         }
 

@@ -1,7 +1,12 @@
 package com.bigkevmcd.camel.sendgrid;
 
+import com.sendgrid.SendGrid;
+import org.apache.camel.impl.JndiRegistry;
+import org.apache.camel.impl.PropertyPlaceholderDelegateRegistry;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
+
+import static org.mockito.Mockito.mock;
 
 
 public class SendGridComponentConfigurationTest extends CamelTestSupport {
@@ -68,5 +73,20 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
 
         assertEquals("from@example.com", endpoint.getConfiguration().getFrom());
         assertEquals("xxxxxx", endpoint.getConfiguration().getApiKey());
+    }
+
+
+    @Test
+    public void createEndpointWithProvidedClient() throws Exception {
+        SendGrid mock = mock(SendGrid.class);
+
+        ((JndiRegistry) ((PropertyPlaceholderDelegateRegistry) context.getRegistry()).getRegistry())
+                .bind("sendgridClient", mock);
+
+        SendGridComponent component = new SendGridComponent(context);
+        SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?"
+                + "sendgridClient=#sendgridClient");
+
+        assertSame(mock, endpoint.getConfiguration().getSendGridClient());
     }
 }

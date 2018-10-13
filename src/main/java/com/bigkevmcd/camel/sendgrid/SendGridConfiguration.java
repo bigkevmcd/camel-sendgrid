@@ -1,6 +1,7 @@
 package com.bigkevmcd.camel.sendgrid;
 
 
+import com.sendgrid.SendGrid;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.spi.Metadata;
 import org.apache.camel.spi.UriParam;
@@ -27,6 +28,9 @@ public class SendGridConfiguration implements Cloneable {
 
     @UriParam
     private List<String> replyToAddresses;
+
+    @UriParam
+    private SendGrid sendGridClient;
 
     /**
      * SendGrid API key.
@@ -94,6 +98,17 @@ public class SendGridConfiguration implements Cloneable {
 
     public void setReplyToAddresses(String replyToAddresses) {
         this.replyToAddresses = Arrays.asList(replyToAddresses.split(","));
+    }
+
+    public SendGrid getSendGridClient() {
+        return sendGridClient;
+    }
+
+    /**
+     * To use the SendGrid as the client
+     */
+    public void setSendGridClient(SendGrid sendGridClient) {
+        this.sendGridClient = sendGridClient;
     }
 
     public SendGridConfiguration copy() {
