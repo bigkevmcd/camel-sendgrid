@@ -21,13 +21,13 @@ public class SendGridConfiguration implements Cloneable {
     private String apiKey;
 
     @UriParam
-    private List<String> to;
+    private String to;
 
     @UriParam
     private String subject;
 
     @UriParam
-    private List<String> replyToAddresses;
+    private String replyToAddress;
 
     @UriParam
     private SendGrid sendGridClient;
@@ -60,13 +60,9 @@ public class SendGridConfiguration implements Cloneable {
      * Can be overridden with 'CamelSendGridTo' header.
      * @return
      */
-    public List<String> getTo() { return to; }
+    public String getTo() { return to; }
 
-    public void setTo(List<String> to) { this.to = to; }
-
-    public void setTo(String to) {
-        this.to = Arrays.asList(to.split(","));
-    }
+    public void setTo(String to) { this.to = to; }
 
     /**
      * The subject line for sent emails.
@@ -88,16 +84,12 @@ public class SendGridConfiguration implements Cloneable {
      * Can be overridden using 'CamelSendGridReplyToAddresses' header.
      * @return
      */
-    public List<String> getReplyToAddresses() {
-        return replyToAddresses;
+    public String getReplyToAddress() {
+        return replyToAddress;
     }
 
-    public void setReplyToAddresses(List<String> replyToAddresses) {
-        this.replyToAddresses = replyToAddresses;
-    }
-
-    public void setReplyToAddresses(String replyToAddresses) {
-        this.replyToAddresses = Arrays.asList(replyToAddresses.split(","));
+    public void setReplyToAddress(String replyToAddress) {
+        this.replyToAddress = replyToAddress;
     }
 
     public SendGrid getSendGridClient() {
@@ -105,10 +97,15 @@ public class SendGridConfiguration implements Cloneable {
     }
 
     /**
-     * To use the SendGrid as the client
+     * To use the provided SendGrid as the client.
      */
-    public void setSendGridClient(SendGrid sendGridClient) {
-        this.sendGridClient = sendGridClient;
+    public void setSendGridClient(SendGrid sendgrid) {
+        this.sendGridClient = sendgrid;
+    }
+
+    public void setSendgridClient(String client) {
+        System.out.println("KEVIN!!! " + client);
+        this.sendGridClient = null;
     }
 
     public SendGridConfiguration copy() {

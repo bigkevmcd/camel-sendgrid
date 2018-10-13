@@ -1,5 +1,6 @@
 package com.bigkevmcd.camel.sendgrid;
 
+import com.sendgrid.SendGrid;
 import org.apache.camel.*;
 import org.apache.camel.impl.DefaultEndpoint;
 import org.apache.camel.spi.UriEndpoint;
@@ -16,6 +17,7 @@ import org.apache.camel.spi.UriParam;
 public class SendGridEndpoint extends DefaultEndpoint {
     @UriParam
     private SendGridConfiguration configuration;
+    private SendGrid sendGridClient;
 
     @Deprecated
     public SendGridEndpoint(String uri, CamelContext context, SendGridConfiguration configuration) {
@@ -30,7 +32,7 @@ public class SendGridEndpoint extends DefaultEndpoint {
 
     @Override
     public Producer createProducer() throws Exception {
-        return null;
+        return new SendGridProducer(this);
     }
 
     @Override
@@ -45,5 +47,19 @@ public class SendGridEndpoint extends DefaultEndpoint {
 
     public SendGridConfiguration getConfiguration() {
         return configuration;
+    }
+
+    public SendGrid getSendGridClient() { return sendGridClient; }
+
+    @Override
+    public void doStart() throws Exception {
+        super.doStart();
+        sendGridClient = configuration.getSendGridClient() != null
+                ? configuration.getSendGridClient()
+                : createSendGridClient();
+    }
+
+    private SendGrid createSendGridClient() {
+        return new SendGrid(configuration.getApiKey());
     }
 }
