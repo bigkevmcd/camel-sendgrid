@@ -62,123 +62,67 @@ with the following path and query parameters:
 | *apiKey* (security) | API Access Key |  | String
 |===
 // endpoint options: END
-// spring-boot-auto-configure options: START
-=== Spring Boot Auto-Configuration
 
-The component supports 16 options, which are listed below.
+Required SendGrid component options
 
-[width="100%",cols="2,5,^1,2",options="header"]
-|===
-| Name | Description | Default | Type
-| *camel.component.sendgrid.access-key* | Amazon AWS Access Key |  | String
-| *camel.component.sendgrid.configuration.access-key* | Amazon AWS Access Key |  | String
-| *camel.component.sendgrid.configuration.amazon-s-e-s-client* | To use the AmazonSimpleEmailService as the client |  | AmazonSimpleEmail Service
-| *camel.component.sendgrid.configuration.from* | The sender's email address. |  | String
-| *camel.component.sendgrid.configuration.proxy-host* | To define a proxy host when instantiating the SES client |  | String
-| *camel.component.sendgrid.configuration.proxy-port* | To define a proxy port when instantiating the SES client |  | Integer
-| *camel.component.sendgrid.configuration.region* | The region in which SES client needs to work |  | String
-| *camel.component.sendgrid.configuration.reply-to-addresses* | List of reply-to email address(es) for the message, override it using 'CamelAwsSesReplyToAddresses' header. |  | List
-| *camel.component.sendgrid.configuration.return-path* | The email address to which bounce notifications are to be forwarded, override it using 'CamelAwsSesReturnPath' header. |  | String
-| *camel.component.sendgrid.configuration.secret-key* | Amazon AWS Secret Key |  | String
-| *camel.component.sendgrid.configuration.subject* | The subject which is used if the message header 'CamelAwsSesSubject' is not present. |  | String
-| *camel.component.sendgrid.configuration.to* | List of destination email address. Can be overriden with 'CamelAwsSesTo' header. |  | List
-| *camel.component.sendgrid.enabled* | Enable sendgrid component | true | Boolean
-| *camel.component.sendgrid.region* | The region in which SES client needs to work |  | String
-| *camel.component.sendgrid.resolve-property-placeholders* | Whether the component should resolve property placeholders on itself when starting. Only properties which are of String type can use property placeholders. | true | Boolean
-| *camel.component.sendgrid.secret-key* | Amazon AWS Secret Key |  | String
-|===
-// spring-boot-auto-configure options: END
-
-
-
-
-Required SES component options
-
-You have to provide the amazonSESClient in the
-Registry or your accessKey and secretKey to access
-the http://aws.amazon.com/ses[Amazon's SES].
+You have to provide the sendGridClient in the
+Registry or your apiKey.
 
 ### Usage
 
-#### Message headers evaluated by the SES producer
+#### Message headers evaluated by the SendGrid producer
 
 [width="100%",cols="10%,10%,80%",options="header",]
 |=======================================================================
 |Header |Type |Description
 
-|`CamelAwsSesFrom` |`String` |The sender's email address.
+|`CamelSendGridFrom` |`String` |The sender's email address.
 
-|`CamelAwsSesTo` |`List<String>` |The destination(s) for this email.
+|`CamelSendGridTo` |`List<String>` |The destination(s) for this email.
 
-|`CamelAwsSesSubject` |`String` |The subject of the message.
+|`CamelSendGridSubject` |`String` |The subject of the message.
 
-|`CamelAwsSesReplyToAddresses` |`List<String>` |The reply-to email address(es) for the message.
-
-|`CamelAwsSesReturnPath` |`String` |The email address to which bounce notifications are to be forwarded.
-
-|`CamelAwsSesHtmlEmail` |`Boolean` |*Since Camel 2.12.3* The flag to show if email content is HTML.
 |=======================================================================
 
-#### Message headers set by the SES producer
+#### Message headers set by the SendGridS producer
 
 [width="100%",cols="10%,10%,80%",options="header",]
 |=======================================================================
 |Header |Type |Description
 
-|`CamelAwsSesMessageId` |`String` |The Amazon SES message ID.
+|`CamelSendGridMessageId` |`String` |The SendGrid message ID.
 |=======================================================================
 
-#### Advanced AmazonSimpleEmailService configuration
+#### Advanced SendGrid configuration
 
-If you need more control over the `AmazonSimpleEmailService` instance
+If you need more control over the `SendGrid` instance
 configuration you can create your own instance and refer to it from the
 URI:
 
 [source,java]
 -------------------------------------------------------------
 from("direct:start")
-.to("sendgrid://example@example.com?amazonSESClient=#client");
+.to("sendgrid://example@example.com?sendGridClient=#sendgrid");
 -------------------------------------------------------------
 
-The `#client` refers to a `AmazonSimpleEmailService` in the
+The `#sendgrid` refers to a `SendGrid` in the
 Registry.
-
-For example if your Camel Application is running behind a firewall:
 
 [source,java]
 ----------------------------------------------------------------------------------------------------------
-AWSCredentials awsCredentials = new BasicAWSCredentials("myAccessKey", "mySecretKey");
-ClientConfiguration clientConfiguration = new ClientConfiguration();
-clientConfiguration.setProxyHost("http://myProxyHost");
-clientConfiguration.setProxyPort(8080);
-AmazonSimpleEmailService client = new AmazonSimpleEmailServiceClient(awsCredentials, clientConfiguration);
+import com.sendgrid.Client;
+import com.sendgrid.SendGrid;
+Client client = new Client();
+SendGrid sendgrid = new SendGrid(apiKey, client);
 
-registry.bind("client", client);
+registry.bind("sendgrid", sendgrid);
 ----------------------------------------------------------------------------------------------------------
 
 ### Dependencies
 
-Maven users will need to add the following dependency to their pom.xml.
-
-*pom.xml*
-
-[source,xml]
----------------------------------------
-<dependency>
-    <groupId>org.apache.camel</groupId>
-    <artifactId>camel-aws</artifactId>
-    <version>${camel-version}</version>
-</dependency>
----------------------------------------
-
-where `${camel-version`} must be replaced by the actual version of Camel
-(2.8.4 or higher).
+// TODO
 
 ### See Also
 
-* Configuring Camel
-* Component
-* Endpoint
-* Getting Started
-
-* AWS Component
+* []SendGrid's Java Library](https://github.com/sendgrid/sendgrid-java)
+s
