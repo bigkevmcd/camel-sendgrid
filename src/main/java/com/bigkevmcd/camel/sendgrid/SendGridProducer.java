@@ -27,12 +27,17 @@ public class SendGridProducer extends DefaultProducer {
             log.trace("Received result [{}]", response);
             exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID));
         } else {
-            Mail mail = createMailRequest(exchange);
-            Request request = createMailRequest(mail);
-            log.trace("Sending request [{}] from exchange [{}]...", request, exchange);
-            Response response = getEndpoint().getSendGridClient().api(request);
-            log.trace("Received result [{}]", response);
-            exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID));
+            try {
+                Mail mail = createMailRequest(exchange);
+                Request request = createMailRequest(mail);
+                log.trace("Sending request [{}] from exchange [{}]...", request, exchange);
+                Response response = getEndpoint().getSendGridClient().api(request);
+                log.trace("Received result [{}]", response);
+                exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID));
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
         }
     }
 

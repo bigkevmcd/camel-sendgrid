@@ -7,9 +7,9 @@ import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
 
 /**
- * PagerDuty Endpoint<br/>
+ * SendGrid Endpoint<br/>
  * <p>
- * A PagerDuty Endpoint is defined by the next pattern:<br/>
+ * A SendGrid Endpoint is defined by the next pattern:<br/>
  *
  * <code>sendgrid:[from]?options]</code>
  */
@@ -60,6 +60,7 @@ public class SendGridEndpoint extends DefaultEndpoint {
     }
 
     private SendGrid createSendGridClient() {
+        System.out.println(configuration.getApiKey());
         return new SendGrid(configuration.getApiKey());
     }
 }

@@ -75,7 +75,6 @@ public class SendGridComponentTest extends CamelTestSupport {
                         .to("sendgrid://from@example.com"
                                 + "?to=to1@example.com"
                                 + "&subject=Subject"
-                                + "&replyToAddress=replyTo1@example.comm"
                                 + "&sendGridClient=#sendGridClient");
             }
         };

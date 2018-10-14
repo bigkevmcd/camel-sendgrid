@@ -42,7 +42,6 @@ public class SendGridComponent extends DefaultComponent {
         if (configuration.getSendGridClient() == null && configuration.getApiKey() == null) {
             throw new IllegalArgumentException("apiKey must be specified");
         }
-
         return new SendGridEndpoint(uri, this, configuration);
     }
 
