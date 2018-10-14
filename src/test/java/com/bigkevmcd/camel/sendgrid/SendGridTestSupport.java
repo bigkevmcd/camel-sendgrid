@@ -11,9 +11,9 @@ import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 
-public class SendGridTestSupport extends CamelTestSupport {
-    protected static final String MESSAGE_ID = "kA5kcHA8SVGtVh5S9rAUew";
-    protected SendGrid mockSendGrid;
+class SendGridTestSupport extends CamelTestSupport {
+    static final String MESSAGE_ID = "kA5kcHA8SVGtVh5S9rAUew";
+    SendGrid mockSendGrid;
 
     @Override
     @Before
@@ -29,9 +29,9 @@ public class SendGridTestSupport extends CamelTestSupport {
         return registry;
     }
 
-    protected Response createResponse(int statusCode, String messageId) {
+    Response createResponse() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("X-Message-Id", messageId);
+        headers.put("X-Message-Id", SendGridTestSupport.MESSAGE_ID);
         Response response = new Response();
         response.setStatusCode(200);
         response.setHeaders(headers);

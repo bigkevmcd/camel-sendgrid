@@ -16,7 +16,7 @@ import org.apache.camel.spi.UriParam;
 @UriEndpoint(scheme = "sendgrid", title = "SendGrid", syntax = "sendgrid:from[?options]", producerOnly = true)
 public class SendGridEndpoint extends DefaultEndpoint {
     @UriParam
-    private SendGridConfiguration configuration;
+    private final SendGridConfiguration configuration;
     private SendGrid sendGridClient;
 
     @Deprecated

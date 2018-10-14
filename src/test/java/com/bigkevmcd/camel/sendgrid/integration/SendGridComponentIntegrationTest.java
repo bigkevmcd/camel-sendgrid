@@ -3,7 +3,6 @@ package com.bigkevmcd.camel.sendgrid.integration;
 import com.bigkevmcd.camel.sendgrid.SendGridConstants;
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Ignore;
@@ -14,12 +13,10 @@ public class SendGridComponentIntegrationTest extends CamelTestSupport {
 
     @Test
     public void sendUsingAccessKeyAndSecretKey() {
-        Exchange exchange = template.send("direct:start", ExchangePattern.InOnly, new Processor() {
-            public void process(Exchange exchange) {
-                exchange.getIn().setHeader(SendGridConstants.SUBJECT, "This is my subject");
-                exchange.getIn().setHeader(SendGridConstants.TO, "to@example.com");
-                exchange.getIn().setBody("This is my message text.");
-            }
+        Exchange exchange = template.send("direct:start", ExchangePattern.InOnly, exchange1 -> {
+            exchange1.getIn().setHeader(SendGridConstants.SUBJECT, "This is my subject");
+            exchange1.getIn().setHeader(SendGridConstants.TO, "to@example.com");
+            exchange1.getIn().setBody("This is my message text.");
         });
         assertNull(exchange.getException());
         assertNotNull(exchange.getIn().getHeader(SendGridConstants.MESSAGE_ID));

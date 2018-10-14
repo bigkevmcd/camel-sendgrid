@@ -29,7 +29,7 @@ public class SendGridProducerTest extends SendGridTestSupport {
         headers.put(SendGridConstants.FROM, "anotherFrom@example.com");
         headers.put(SendGridConstants.TO, "anotherTo1@example.com");
         headers.put(SendGridConstants.SUBJECT, "anotherSubject");
-        doReturn(createResponse(200, MESSAGE_ID)).when(mockSendGrid).api(any(Request.class));
+        doReturn(createResponse()).when(mockSendGrid).api(any(Request.class));
 
         template.sendBodyAndHeaders("direct:start", "Message ", headers);
 
@@ -37,7 +37,7 @@ public class SendGridProducerTest extends SendGridTestSupport {
     }
 
     @Test
-    public void processHandlesExceptions() throws InterruptedException, IOException {
+    public void processHandlesExceptions() throws IOException {
         Map<String, Object> headers = new HashMap<>();
         headers.put(SendGridConstants.FROM, "anotherFrom@example.com");
         headers.put(SendGridConstants.TO, "anotherTo1@example.com");
@@ -54,10 +54,10 @@ public class SendGridProducerTest extends SendGridTestSupport {
     }
 
     @Override
-    protected RouteBuilder createRouteBuilder() throws Exception {
+    protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             @Override
-            public void configure() throws Exception {
+            public void configure() {
                 from("direct:start").to("sendgrid://camel@localhost?sendGridClient=#sendGridClient", "mock:result");
             }
         };

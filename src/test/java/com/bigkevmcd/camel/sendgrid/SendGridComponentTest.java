@@ -2,26 +2,19 @@ package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.*;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class SendGridComponentTest extends SendGridTestSupport {
 
     @Test
     public void sendInOnlyMessageUsingUrlOptions() throws Exception {
-        doReturn(createResponse(200, MESSAGE_ID)).when(mockSendGrid).api(any(Request.class));
+        doReturn(createResponse()).when(mockSendGrid).api(any(Request.class));
 
-        Exchange exchange = template.send("direct:start", new Processor() {
-            @Override
-            public void process(Exchange exchange) {
-                exchange.getIn().setBody("This is my message text.");
-            }
-        });
+        Exchange exchange = template.send("direct:start", exchange1 -> exchange1.getIn().setBody("This is my message text."));
 
         assertEquals(MESSAGE_ID, exchange.getIn().getHeader(SendGridConstants.MESSAGE_ID));
         ArgumentCaptor<Request> captor = ArgumentCaptor.forClass(Request.class);
@@ -33,14 +26,12 @@ public class SendGridComponentTest extends SendGridTestSupport {
 
     @Test
     public void sendMessageUsingMessageHeaders() throws Exception {
-        doReturn(createResponse(200, MESSAGE_ID)).when(mockSendGrid).api(any(Request.class));
-        Exchange exchange = template.send("direct:start", new Processor() {
-            public void process(Exchange exchange) {
-                exchange.getIn().setBody("This is the message.");
-                exchange.getIn().setHeader(SendGridConstants.FROM, "anotherFrom@example.com");
-                exchange.getIn().setHeader(SendGridConstants.TO, "anotherTo1@example.com");
-                exchange.getIn().setHeader(SendGridConstants.SUBJECT, "anotherSubject");
-            }
+        doReturn(createResponse()).when(mockSendGrid).api(any(Request.class));
+        Exchange exchange = template.send("direct:start", exchange1 -> {
+            exchange1.getIn().setBody("This is the message.");
+            exchange1.getIn().setHeader(SendGridConstants.FROM, "anotherFrom@example.com");
+            exchange1.getIn().setHeader(SendGridConstants.TO, "anotherTo1@example.com");
+            exchange1.getIn().setHeader(SendGridConstants.SUBJECT, "anotherSubject");
         });
 
         assertEquals(MESSAGE_ID, exchange.getIn().getHeader(SendGridConstants.MESSAGE_ID));
@@ -67,7 +58,6 @@ public class SendGridComponentTest extends SendGridTestSupport {
 
     private Mail createMail(String from, String to, String subject, String body) {
         Content content = new Content("text/plain", body);
-        Mail mail = new Mail(new Email(from), subject, new Email(to), content);
-        return mail;
+        return new Mail(new Email(from), subject, new Email(to), content);
     }
 }

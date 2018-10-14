@@ -15,7 +15,7 @@ public class SendGridComponent extends DefaultComponent {
     @Metadata
     private String apiKey;
     @Metadata(label = "advanced")
-    private SendGridConfiguration configuration;
+    private final SendGridConfiguration configuration;
 
     public SendGridComponent() {
         this(null);

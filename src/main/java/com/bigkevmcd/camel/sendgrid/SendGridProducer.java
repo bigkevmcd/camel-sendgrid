@@ -3,7 +3,6 @@ package com.bigkevmcd.camel.sendgrid;
 import com.sendgrid.*;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
-import org.apache.camel.util.URISupport;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -11,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * SendGridProducer sends the emails to SendGrid.
  */
-public class SendGridProducer extends DefaultProducer {
+class SendGridProducer extends DefaultProducer {
     private transient String sendGridProducerToString;
     private static final Pattern SECRET = Pattern.compile("([?&][^=]*(?:apiKey)[^=]*)=([^&]*)", Pattern.CASE_INSENSITIVE);
 
