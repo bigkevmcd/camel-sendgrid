@@ -8,9 +8,6 @@ import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 
-import java.util.Arrays;
-import java.util.List;
-
 @UriParams
 public class SendGridConfiguration implements Cloneable {
     @UriPath
@@ -104,7 +101,6 @@ public class SendGridConfiguration implements Cloneable {
     }
 
     public void setSendgridClient(String client) {
-        System.out.println("KEVIN!!! " + client);
         this.sendGridClient = null;
     }
 
