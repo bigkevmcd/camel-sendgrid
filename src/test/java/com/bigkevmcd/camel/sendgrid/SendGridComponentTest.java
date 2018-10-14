@@ -4,21 +4,13 @@ import com.sendgrid.*;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.impl.JndiRegistry;
-import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SendGridComponentTest extends CamelTestSupport {
-
-    public static final String MESSAGE_ID = "kA5kcHA8SVGtVh5S9rAUew";
-    private SendGrid mockSendGrid = mock(SendGrid.class);
+public class SendGridComponentTest extends SendGridTestSupport {
 
     @Test
     public void sendInOnlyMessageUsingUrlOptions() throws Exception {
@@ -60,13 +52,6 @@ public class SendGridComponentTest extends CamelTestSupport {
     }
 
     @Override
-    protected JndiRegistry createRegistry() throws Exception {
-        JndiRegistry registry = super.createRegistry();
-        registry.bind("sendGridClient", mockSendGrid);
-        return registry;
-    }
-
-    @Override
     protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             @Override
@@ -78,15 +63,6 @@ public class SendGridComponentTest extends CamelTestSupport {
                                 + "&sendGridClient=#sendGridClient");
             }
         };
-    }
-
-    private Response createResponse(int statusCode, String messageId) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("X-Message-Id", messageId);
-        Response response = new Response();
-        response.setStatusCode(200);
-        response.setHeaders(headers);
-        return response;
     }
 
     private Mail createMail(String from, String to, String subject, String body) {

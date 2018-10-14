@@ -31,7 +31,7 @@ public class SendGridProducer extends DefaultProducer {
             Response response = getEndpoint().getSendGridClient().api(request);
             String messageId = response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID);
             exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, messageId);
-        } catch (Exception e) {
+        } catch (IOException e) {
             exchange.setException(e);
         }
     }

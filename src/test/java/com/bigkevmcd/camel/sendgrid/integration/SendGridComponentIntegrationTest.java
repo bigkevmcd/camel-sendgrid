@@ -21,6 +21,7 @@ public class SendGridComponentIntegrationTest extends CamelTestSupport {
                 exchange.getIn().setBody("This is my message text.");
             }
         });
+        assertNull(exchange.getException());
         assertNotNull(exchange.getIn().getHeader(SendGridConstants.MESSAGE_ID));
     }
 
