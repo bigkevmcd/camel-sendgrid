@@ -26,7 +26,7 @@ public class SendGridComponentTest extends CamelTestSupport {
 
         Exchange exchange = template.send("direct:start", new Processor() {
             @Override
-            public void process(Exchange exchange) throws Exception {
+            public void process(Exchange exchange) {
                 exchange.getIn().setBody("This is my message text.");
             }
         });
@@ -43,7 +43,7 @@ public class SendGridComponentTest extends CamelTestSupport {
     public void sendMessageUsingMessageHeaders() throws Exception {
         doReturn(createResponse(200, MESSAGE_ID)).when(mockSendGrid).api(any(Request.class));
         Exchange exchange = template.send("direct:start", new Processor() {
-            public void process(Exchange exchange) throws Exception {
+            public void process(Exchange exchange) {
                 exchange.getIn().setBody("This is the message.");
                 exchange.getIn().setHeader(SendGridConstants.FROM, "anotherFrom@example.com");
                 exchange.getIn().setHeader(SendGridConstants.TO, "anotherTo1@example.com");
@@ -67,10 +67,10 @@ public class SendGridComponentTest extends CamelTestSupport {
     }
 
     @Override
-    protected RouteBuilder createRouteBuilder() throws Exception {
+    protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             @Override
-            public void configure() throws Exception {
+            public void configure() {
                 from("direct:start")
                         .to("sendgrid://from@example.com"
                                 + "?to=to1@example.com"

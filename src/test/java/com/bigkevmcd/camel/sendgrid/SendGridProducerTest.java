@@ -8,4 +8,8 @@ public class SendGridProducerTest {
     public void toStringSanitisesURL() {
 
     }
+
+    @Test
+    public void process() {
+    }
 }

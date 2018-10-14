@@ -13,9 +13,9 @@ import org.junit.Test;
 public class SendGridComponentIntegrationTest extends CamelTestSupport {
 
     @Test
-    public void sendUsingAccessKeyAndSecretKey() throws Exception {
+    public void sendUsingAccessKeyAndSecretKey() {
         Exchange exchange = template.send("direct:start", ExchangePattern.InOnly, new Processor() {
-            public void process(Exchange exchange) throws Exception {
+            public void process(Exchange exchange) {
                 exchange.getIn().setHeader(SendGridConstants.SUBJECT, "This is my subject");
                 exchange.getIn().setHeader(SendGridConstants.TO, "to@example.com");
                 exchange.getIn().setBody("This is my message text.");
@@ -24,10 +24,10 @@ public class SendGridComponentIntegrationTest extends CamelTestSupport {
         assertNotNull(exchange.getIn().getHeader(SendGridConstants.MESSAGE_ID));
     }
 
-    protected RouteBuilder createRouteBuilder() throws Exception {
+    protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
             @Override
-            public void configure() throws Exception {
+            public void configure() {
                 from("direct:start")
                         .to("sendgrid://from@example.com?apiKey={{env:SENDGRID_API_KEY}}");
             }
