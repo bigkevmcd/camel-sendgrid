@@ -6,7 +6,6 @@ package com.bigkevmcd.camel.sendgrid;
 public interface SendGridConstants {
     String FROM = "CamelSendGridFrom";
     String MESSAGE_ID = "CamelSendGridMessageId";
-    String REPLY_TO_ADDRESSES = "CamelSendGridReplyToAddresses";
     String SUBJECT = "CamelSendGridSubject";
     String TO = "CamelSendGridTo";
 
