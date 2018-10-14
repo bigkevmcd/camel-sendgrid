@@ -25,18 +25,18 @@ public class SendGridEndpoint extends DefaultEndpoint {
         this.configuration = configuration;
     }
 
-    public SendGridEndpoint(String uri, Component component, SendGridConfiguration configuration) {
+    SendGridEndpoint(String uri, Component component, SendGridConfiguration configuration) {
         super(uri, component);
         this.configuration = configuration;
     }
 
     @Override
-    public Producer createProducer() throws Exception {
+    public Producer createProducer() {
         return new SendGridProducer(this);
     }
 
     @Override
-    public Consumer createConsumer(Processor processor) throws Exception {
+    public Consumer createConsumer(Processor processor) {
         return null;
     }
 
@@ -45,11 +45,13 @@ public class SendGridEndpoint extends DefaultEndpoint {
         return false;
     }
 
-    public SendGridConfiguration getConfiguration() {
+    SendGridConfiguration getConfiguration() {
         return configuration;
     }
 
-    public SendGrid getSendGridClient() { return sendGridClient; }
+    SendGrid getSendGridClient() {
+        return sendGridClient;
+    }
 
     @Override
     public void doStart() throws Exception {
@@ -60,7 +62,6 @@ public class SendGridEndpoint extends DefaultEndpoint {
     }
 
     private SendGrid createSendGridClient() {
-        System.out.println(configuration.getApiKey());
         return new SendGrid(configuration.getApiKey());
     }
 }

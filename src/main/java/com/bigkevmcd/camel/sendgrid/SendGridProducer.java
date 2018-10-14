@@ -2,42 +2,37 @@ package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.*;
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
 import org.apache.camel.impl.DefaultProducer;
+import org.apache.camel.util.URISupport;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * SendGridProducer sends the emails to SendGrid.
  */
 public class SendGridProducer extends DefaultProducer {
-    public SendGridProducer(SendGridEndpoint endpoint) {
+    private transient String sendGridProducerToString;
+
+    SendGridProducer(SendGridEndpoint endpoint) {
         super(endpoint);
     }
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        Request request;
         if ((exchange.getIn().getBody() instanceof Mail)) {
-            Request request = createMailRequest((Mail)exchange.getIn().getBody());
-            log.trace("Sending request [{}] from exchange [{}]...", request, exchange);
-            Response response = getEndpoint().getSendGridClient().api(request);
-            log.trace("Received result [{}]", response);
-            exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID));
+            request = createMailRequest((Mail) exchange.getIn().getBody());
         } else {
-            try {
-                Mail mail = createMailRequest(exchange);
-                Request request = createMailRequest(mail);
-                log.trace("Sending request [{}] from exchange [{}]...", request, exchange);
-                Response response = getEndpoint().getSendGridClient().api(request);
-                log.trace("Received result [{}]", response);
-                exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID));
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
-            }
+            Mail mail = createMailRequest(exchange);
+            request = createMailRequest(mail);
+        }
+
+        try {
+            Response response = getEndpoint().getSendGridClient().api(request);
+            String messageId = response.getHeaders().get(SendGridConstants.RESPONSE_MESSAGE_ID);
+            exchange.getIn().setHeader(SendGridConstants.MESSAGE_ID, messageId);
+        } catch (Exception e) {
+            exchange.setException(e);
         }
     }
 
@@ -46,21 +41,15 @@ public class SendGridProducer extends DefaultProducer {
         Email to = determineTo(exchange);
         String subject = determineSubject(exchange);
         Content content = new Content("text/plain", exchange.getIn().getBody(String.class));
-        Mail mail = new Mail(from, subject, to, content);
-        return mail;
+        return new Mail(from, subject, to, content);
     }
 
-    private Request createMailRequest(Mail mail) {
+    private Request createMailRequest(Mail mail) throws IOException {
         Request request = new Request();
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            return request;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+        return request;
     }
 
     @Override
@@ -92,7 +81,15 @@ public class SendGridProducer extends DefaultProducer {
         return subject;
     }
 
-    protected SendGridConfiguration getConfiguration() {
+    @Override
+    public String toString() {
+        if (sendGridProducerToString == null) {
+            sendGridProducerToString = "SendGridProducer[" + URISupport.sanitizeUri(getEndpoint().getEndpointUri()) + "]";
+        }
+        return sendGridProducerToString;
+    }
+
+    private SendGridConfiguration getConfiguration() {
         return getEndpoint().getConfiguration();
     }
 
