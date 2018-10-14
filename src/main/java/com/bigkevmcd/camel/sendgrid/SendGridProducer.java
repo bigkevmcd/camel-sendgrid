@@ -6,12 +6,14 @@ import org.apache.camel.impl.DefaultProducer;
 import org.apache.camel.util.URISupport;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * SendGridProducer sends the emails to SendGrid.
  */
 public class SendGridProducer extends DefaultProducer {
     private transient String sendGridProducerToString;
+    private static final Pattern SECRET = Pattern.compile("([?&][^=]*(?:apiKey)[^=]*)=([^&]*)", Pattern.CASE_INSENSITIVE);
 
     SendGridProducer(SendGridEndpoint endpoint) {
         super(endpoint);
@@ -83,10 +85,15 @@ public class SendGridProducer extends DefaultProducer {
 
     @Override
     public String toString() {
+        System.out.println("toString called");
         if (sendGridProducerToString == null) {
-            sendGridProducerToString = "SendGridProducer[" + URISupport.sanitizeUri(getEndpoint().getEndpointUri()) + "]";
+            sendGridProducerToString = "SendGridProducer[" + sanitizeUri(getEndpoint().getEndpointUri()) + "]";
         }
         return sendGridProducerToString;
+    }
+
+    private String sanitizeUri(String uri) {
+        return SECRET.matcher(uri).replaceAll("$1=xxxxxx");
     }
 
     private SendGridConfiguration getConfiguration() {

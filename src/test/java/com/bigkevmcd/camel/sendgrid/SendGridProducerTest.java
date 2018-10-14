@@ -16,8 +16,11 @@ import static org.mockito.Mockito.when;
 public class SendGridProducerTest extends SendGridTestSupport {
 
     @Test
-    public void toStringSanitisesURL() {
-
+    public void toStringSanitisesUri() throws Exception {
+        SendGridComponent component = new SendGridComponent(context);
+        SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?apiKey=zzz");
+        SendGridProducer producer = (SendGridProducer) endpoint.createProducer();
+        assertEquals("SendGridProducer[sendgrid://from@example.com?apiKey=xxxxxx]", producer.toString());
     }
 
     @Test
