@@ -1,6 +1,5 @@
 package com.bigkevmcd.camel.sendgrid;
 
-
 import com.sendgrid.SendGrid;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.spi.Metadata;

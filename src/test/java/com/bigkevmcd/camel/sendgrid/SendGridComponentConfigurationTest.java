@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 
-
 public class SendGridComponentConfigurationTest extends CamelTestSupport {
 
     @Test
@@ -23,7 +22,6 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         assertNull(endpoint.getConfiguration().getReplyToAddress());
     }
 
-
     @Test
     public void createEndpointWithMaximalConfiguration() throws Exception {
         SendGridComponent component = new SendGridComponent(context);
@@ -37,7 +35,6 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         assertEquals("Subject", endpoint.getConfiguration().getSubject());
         assertEquals("replyTo1@example.com", endpoint.getConfiguration().getReplyToAddress());
     }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void createEndpointWithoutSourceName() throws Exception {
@@ -70,7 +67,6 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         assertEquals("from@example.com", endpoint.getConfiguration().getFrom());
         assertEquals("xxxxxx", endpoint.getConfiguration().getApiKey());
     }
-
 
     @Test
     public void createEndpointWithProvidedClient() throws Exception {
