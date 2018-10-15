@@ -7,6 +7,24 @@
     <groupId>com.bigkevmcd.camel</groupId>
     <artifactId>camel-sendgrid</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+         
+    <name>SendGrid Camel Component</name>
+    <description>Allows for sending email using SendMail from a Camel flow.</description>
+    <url>http://github.com/bigkevmcd/camel-sendgrid</url>
+ 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/bigkevmcd/camel-sendgrid</url>
+    </scm>
+ 
     <properties>
         <camel.version>2.22.1</camel.version>
         <sendgrid.version>4.3.0</sendgrid.version>
