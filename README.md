@@ -24,10 +24,7 @@ The SendGrid component supports 5 options, which are listed below.
 | *configuration* (advanced) | The SendGrid default configuration |  | SendGridConfiguration
 | *apiKey* (producer) | SendGrid API Key |  | String
 | *resolveProperty Placeholders* (advanced) | Whether the component should resolve property placeholders on itself when starting. Only properties which are of String type can use property placeholders. | true | boolean
-|===
-// component options: END
 
-// endpoint options: START
 The SendGrid endpoint is configured using URI syntax:
 
 ----
@@ -36,13 +33,13 @@ sendgrid:from
 
 with the following path and query parameters:
 
-==== Path Parameters (1 parameters):
+### Path Parameters (1 parameters):
 
 |Name|Description|Default|Type|
 |---|---|---|---|
 |*from*|*Required* The sender's email address.| |String|
 
-==== Query Parameters (4 parameters):
+### Query Parameters (3 parameters):
 | Name | Description | Default | Type
 | *subject* (producer) | The subject which is used if the message header 'CamelSendGridSubject' is not present. |  | String
 | *to* (producer) | List of destination email address. Can be overriden with 'CamelSendGridTo' header. |  | List
@@ -54,21 +51,18 @@ You have to provide the sendGridClient in the Registry or your apiKey.
 
 ## Usage
 
-## Message headers evaluated by the SendGrid producer
+### Message headers evaluated by the SendGrid producer
 
 |Header |Type |Description
 |`CamelSendGridFrom` |`String` |The sender's email address.
 |`CamelSendGridTo` |`List<String>` |The destination(s) for this email.
 |`CamelSendGridSubject` |`String` |The subject of the message.
 
-## Message headers set by the SendGrid producer
+### Message headers set by the SendGrid producer
 
-[width="100%",cols="10%,10%,80%",options="header",]
-|=======================================================================
 |Header |Type |Description
 
 |`CamelSendGridMessageId` |`String` |The SendGrid message ID.
-|=======================================================================
 
 #### Advanced SendGrid configuration
 
@@ -99,4 +93,4 @@ registry.bind("sendgrid", sendgrid);
 
 ### See Also
 
-* []SendGrid's Java Library](https://github.com/sendgrid/sendgrid-java)
+* SendGrid's Java Library](https://github.com/sendgrid/sendgrid-java)
