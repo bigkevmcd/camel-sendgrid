@@ -19,8 +19,8 @@ You can append query options to the URI in the following format,
 
 The SendGrid component supports 5 options, which are listed below.
 
-|===
-| Name | Description | Default | Type
+| Name          | Description   | Default | Type |
+| ------------- | ------------- | ------- | ---- |
 | *configuration* (advanced) | The SendGrid default configuration |  | SendGridConfiguration
 | *apiKey* (producer) | SendGrid API Key |  | String
 | *resolveProperty Placeholders* (advanced) | Whether the component should resolve property placeholders on itself when starting. Only properties which are of String type can use property placeholders. | true | boolean
@@ -40,7 +40,9 @@ with the following path and query parameters:
 |*from*|*Required* The sender's email address.| |String|
 
 ### Query Parameters (3 parameters):
+
 | Name | Description | Default | Type
+|------|-------------|---------|-----|
 | *subject* (producer) | The subject which is used if the message header 'CamelSendGridSubject' is not present. |  | String
 | *to* (producer) | List of destination email address. Can be overriden with 'CamelSendGridTo' header. |  | List
 | *apiKey* (security) | API Access Key |  | String
@@ -53,15 +55,16 @@ You have to provide the sendGridClient in the Registry or your apiKey.
 
 ### Message headers evaluated by the SendGrid producer
 
-|Header |Type |Description
+|Header |Type |Description |
+|-------|-----|------------|
 |`CamelSendGridFrom` |`String` |The sender's email address.
-|`CamelSendGridTo` |`List<String>` |The destination(s) for this email.
+|`CamelSendGridTo` |`String` |The destination for this email.
 |`CamelSendGridSubject` |`String` |The subject of the message.
 
 ### Message headers set by the SendGrid producer
 
-|Header |Type |Description
-
+|Header |Type |Description |
+|-------|-----|------------|
 |`CamelSendGridMessageId` |`String` |The SendGrid message ID.
 
 #### Advanced SendGrid configuration
