@@ -17,7 +17,7 @@ You can append query options to the URI in the following format,
 
 ### URI Options
 
-The SendGrid component supports 5 options, which are listed below.
+The SendGrid component supports 3 options, which are listed below.
 
 | Name          | Description   | Default | Type |
 | ------------- | ------------- | ------- | ---- |
@@ -44,8 +44,9 @@ with the following path and query parameters:
 | Name | Description | Default | Type
 |------|-------------|---------|-----|
 | *subject* (producer) | The subject which is used if the message header 'CamelSendGridSubject' is not present. |  | String
-| *to* (producer) | List of destination email address. Can be overriden with 'CamelSendGridTo' header. |  | List
+| *to* (producer) | Destination email address. Can be overriden with 'CamelSendGridTo' header. |  | String
 | *apiKey* (security) | API Access Key |  | String
+| *bccAddresses* (producer) | List of destination bcc addresses. Can be overriden with 'CamelSendGridBcc' header. |  | List
 
 Required SendGrid component options
 
@@ -60,6 +61,7 @@ You have to provide the sendGridClient in the Registry or your apiKey.
 |`CamelSendGridFrom` |`String` |The sender's email address.
 |`CamelSendGridTo` |`String` |The destination for this email.
 |`CamelSendGridSubject` |`String` |The subject of the message.
+|`CamelSendGridBcc` |`String` |List of strings to bcc the email to.
 
 ### Message headers set by the SendGrid producer
 
