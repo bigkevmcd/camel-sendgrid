@@ -5,6 +5,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -42,7 +44,14 @@ class SendGridProducer extends DefaultProducer {
         Email to = determineTo(exchange);
         String subject = determineSubject(exchange);
         Content content = new Content("text/plain", exchange.getIn().getBody(String.class));
-        return new Mail(from, subject, to, content);
+        Mail mail = new Mail(from, subject, to, content);
+
+        determineBccAddresses(exchange).ifPresent((bccAddresses) -> {
+            for(String bccAddress: bccAddresses) {
+                mail.getPersonalization().add(createBcc(bccAddress));
+            }
+        });
+        return mail;
     }
 
     private Request createMailRequest(Mail mail) throws IOException {
@@ -82,9 +91,24 @@ class SendGridProducer extends DefaultProducer {
         return subject;
     }
 
+    private Optional<List<String>> determineBccAddresses(Exchange exchange) {
+        List<String> bccAddresses = exchange.getIn().getHeader(SendGridConstants.BCC_ADDRESSES, List.class);
+        if (bccAddresses == null) {
+            bccAddresses = getConfiguration().getBccAddresses();
+        }
+        return Optional.ofNullable(bccAddresses);
+    }
+
+    private Personalization createBcc(String email) {
+        Email bcc = new Email();
+        bcc.setEmail(email);
+        Personalization personalization = new Personalization();
+        personalization.addBcc(bcc);
+        return personalization;
+    }
+
     @Override
     public String toString() {
-        System.out.println("toString called");
         if (sendGridProducerToString == null) {
             sendGridProducerToString = "SendGridProducer[" + sanitizeUri(getEndpoint().getEndpointUri()) + "]";
         }
