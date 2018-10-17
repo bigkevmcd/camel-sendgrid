@@ -19,7 +19,7 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         assertEquals("xxx", endpoint.getConfiguration().getApiKey());
         assertNull(endpoint.getConfiguration().getTo());
         assertNull(endpoint.getConfiguration().getSubject());
-        assertNull(endpoint.getConfiguration().getReplyToAddress());
+        assertNull(endpoint.getConfiguration().getBccAddresses());
     }
 
     @Test
@@ -27,13 +27,15 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         SendGridComponent component = new SendGridComponent(context);
         SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?apiKey=zzz"
                 + "&to=to1@example.com&subject=Subject"
-                + "&replyToAddress=replyTo1@example.com");
+                + "&bccAddresses=bcc1@example.com,bcc2@example.com");
 
         assertEquals("from@example.com", endpoint.getConfiguration().getFrom());
         assertEquals("zzz", endpoint.getConfiguration().getApiKey());
         assertEquals("to1@example.com", endpoint.getConfiguration().getTo());
         assertEquals("Subject", endpoint.getConfiguration().getSubject());
-        assertEquals("replyTo1@example.com", endpoint.getConfiguration().getReplyToAddress());
+        assertEquals(2, endpoint.getConfiguration().getBccAddresses().size());
+        assertTrue(endpoint.getConfiguration().getBccAddresses().contains("bcc1@example.com"));
+        assertTrue(endpoint.getConfiguration().getBccAddresses().contains("bcc2@example.com"));
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -7,6 +7,9 @@ import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 
+import java.util.Arrays;
+import java.util.List;
+
 @UriParams
 public class SendGridConfiguration implements Cloneable {
     @UriPath
@@ -23,7 +26,7 @@ public class SendGridConfiguration implements Cloneable {
     private String subject;
 
     @UriParam
-    private String replyToAddress;
+    private List<String> bccAddresses;
 
     @UriParam
     private SendGrid sendGridClient;
@@ -76,16 +79,20 @@ public class SendGridConfiguration implements Cloneable {
     }
 
     /**
-     * List of reply-to email address(es) for the message.
-     * Can be overridden using 'CamelSendGridReplyToAddresses' header.
+     * List of bcc email address(es) for the message.
+     * Can be overridden using 'CamelSendGridBccAddresses' header.
      * @return
      */
-    public String getReplyToAddress() {
-        return replyToAddress;
+    public List<String> getBccAddresses() {
+        return bccAddresses;
     }
 
-    public void setReplyToAddress(String replyToAddress) {
-        this.replyToAddress = replyToAddress;
+    public void setBccAddresses(String bccAddresses) {
+        this.bccAddresses = Arrays.asList(bccAddresses.split(","));
+    }
+
+    public void setBccAddresses(List<String> bccAddresses) {
+        this.bccAddresses = bccAddresses;
     }
 
     public SendGrid getSendGridClient() {
@@ -111,5 +118,3 @@ public class SendGridConfiguration implements Cloneable {
         }
     }
 }
-
-
