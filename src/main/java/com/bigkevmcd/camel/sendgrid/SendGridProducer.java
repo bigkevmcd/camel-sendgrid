@@ -47,8 +47,8 @@ class SendGridProducer extends DefaultProducer {
         Mail mail = new Mail(from, subject, to, content);
 
         determineBccAddresses(exchange).ifPresent((bccAddresses) -> {
-            for(String bccAddress: bccAddresses) {
-                mail.getPersonalization().add(createBcc(bccAddress));
+            for(String address: bccAddresses) {
+                mail.getPersonalization().add(createBcc(address));
             }
         });
         return mail;
