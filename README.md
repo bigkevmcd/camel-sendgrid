@@ -98,4 +98,4 @@ registry.bind("sendgrid", sendgrid);
 
 ### See Also
 
-* SendGrid's Java Library](https://github.com/sendgrid/sendgrid-java)
+* SendGrid's [Java Library](https://github.com/sendgrid/sendgrid-java)
