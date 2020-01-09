@@ -27,16 +27,23 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camel.version>2.24.0</camel.version>
-        <sendgrid.version>4.3.0</sendgrid.version>
-        <mockito.version>2.28.2</mockito.version>
+        <camel.version>3.0.0</camel.version>
+        <sendgrid.version>4.4.1</sendgrid.version>
+        <mockito.version>3.2.4</mockito.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-core</artifactId>
+            <artifactId>camel-support</artifactId>
             <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>spi-annotations</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

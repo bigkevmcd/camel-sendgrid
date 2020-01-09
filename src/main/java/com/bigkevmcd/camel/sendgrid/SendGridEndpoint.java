@@ -1,10 +1,13 @@
 package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.SendGrid;
-import org.apache.camel.*;
-import org.apache.camel.impl.DefaultEndpoint;
+import org.apache.camel.Component;
+import org.apache.camel.Consumer;
+import org.apache.camel.Processor;
+import org.apache.camel.Producer;
 import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
+import org.apache.camel.support.DefaultEndpoint;
 
 /**
  * SendGrid Endpoint<br/>
@@ -18,12 +21,6 @@ public class SendGridEndpoint extends DefaultEndpoint {
     @UriParam
     private final SendGridConfiguration configuration;
     private SendGrid sendGridClient;
-
-    @Deprecated
-    public SendGridEndpoint(String uri, CamelContext context, SendGridConfiguration configuration) {
-        super(uri, context);
-        this.configuration = configuration;
-    }
 
     SendGridEndpoint(String uri, Component component, SendGridConfiguration configuration) {
         super(uri, component);

@@ -1,8 +1,6 @@
 package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.SendGrid;
-import org.apache.camel.impl.JndiRegistry;
-import org.apache.camel.impl.PropertyPlaceholderDelegateRegistry;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
@@ -73,9 +71,7 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
     @Test
     public void createEndpointWithProvidedClient() throws Exception {
         SendGrid mock = mock(SendGrid.class);
-
-        ((JndiRegistry) ((PropertyPlaceholderDelegateRegistry) context.getRegistry()).getRegistry())
-                .bind("sendGridClient", mock);
+        context.getRegistry().bind("sendGridClient", mock);
 
         SendGridComponent component = new SendGridComponent(context);
         SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?"

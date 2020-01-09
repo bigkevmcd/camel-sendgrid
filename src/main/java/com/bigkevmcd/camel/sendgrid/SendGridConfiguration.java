@@ -13,7 +13,7 @@ import java.util.List;
 @UriParams
 public class SendGridConfiguration implements Cloneable {
     @UriPath
-    @Metadata(required = "true")
+    @Metadata(required = true)
     private String from;
 
     @UriParam(label = "security", secret = true)
@@ -57,7 +57,6 @@ public class SendGridConfiguration implements Cloneable {
      * List of destination email addresses.
      *
      * Can be overridden with 'CamelSendGridTo' header.
-     * @return
      */
     public String getTo() { return to; }
 
@@ -67,8 +66,6 @@ public class SendGridConfiguration implements Cloneable {
      * The subject line for sent emails.
      *
      * Can be overridden with 'CamelSendGridSubject' header.
-     *
-     * @return
      */
     public String getSubject() {
         return subject;
@@ -81,7 +78,6 @@ public class SendGridConfiguration implements Cloneable {
     /**
      * List of bcc email address(es) for the message.
      * Can be overridden using 'CamelSendGridBccAddresses' header.
-     * @return
      */
     public List<String> getBccAddresses() {
         return bccAddresses;
