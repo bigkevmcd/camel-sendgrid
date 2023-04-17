@@ -19,12 +19,6 @@ public class SendGridEndpoint extends DefaultEndpoint {
     private final SendGridConfiguration configuration;
     private SendGrid sendGridClient;
 
-    @Deprecated
-    public SendGridEndpoint(String uri, CamelContext context, SendGridConfiguration configuration) {
-        super(uri, context);
-        this.configuration = configuration;
-    }
-
     SendGridEndpoint(String uri, Component component, SendGridConfiguration configuration) {
         super(uri, component);
         this.configuration = configuration;

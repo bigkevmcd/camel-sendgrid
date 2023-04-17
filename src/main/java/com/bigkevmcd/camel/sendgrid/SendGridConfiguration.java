@@ -13,7 +13,7 @@ import java.util.List;
 @UriParams
 public class SendGridConfiguration implements Cloneable {
     @UriPath
-    @Metadata(required = "true")
+    @Metadata(required = true)
     private String from;
 
     @UriParam(label = "security", secret = true)

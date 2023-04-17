@@ -2,9 +2,10 @@ package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
-import org.apache.camel.impl.JndiRegistry;
-import org.apache.camel.test.junit4.CamelTestSupport;
-import org.junit.Before;
+import org.apache.camel.BindToRegistry;
+
+import org.apache.camel.test.junit5.CamelTestSupport;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,20 +14,13 @@ import static org.mockito.Mockito.mock;
 
 class SendGridTestSupport extends CamelTestSupport {
     static final String MESSAGE_ID = "kA5kcHA8SVGtVh5S9rAUew";
-    SendGrid mockSendGrid;
 
-    @Override
-    @Before
+    @BindToRegistry("sendGridClient")
+    protected SendGrid mockSendGrid;
+    @BeforeEach
     public void setUp() throws Exception {
         mockSendGrid = mock(SendGrid.class);
         super.setUp();
-    }
-
-    @Override
-    protected JndiRegistry createRegistry() throws Exception {
-        JndiRegistry registry = super.createRegistry();
-        registry.bind("sendGridClient", mockSendGrid);
-        return registry;
     }
 
     Response createResponse() {

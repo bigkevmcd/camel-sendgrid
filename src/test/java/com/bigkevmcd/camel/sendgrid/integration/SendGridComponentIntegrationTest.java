@@ -4,11 +4,14 @@ import com.bigkevmcd.camel.sendgrid.SendGridConstants;
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.test.junit4.CamelTestSupport;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.apache.camel.test.junit5.CamelTestSupport;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-@Ignore("Must be manually tested. An API key must be provided in SENDGRID_API_KEY")
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+@Disabled("Must be manually tested. An API key must be provided in SENDGRID_API_KEY")
 public class SendGridComponentIntegrationTest extends CamelTestSupport {
 
     @Test

@@ -3,15 +3,19 @@ package com.bigkevmcd.camel.sendgrid;
 import com.sendgrid.Request;
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.builder.RouteBuilder;
-import org.junit.Test;
+import org.apache.camel.component.mock.MockEndpoint;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.camel.test.junit5.TestSupport.assertIsInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SendGridProducerTest extends SendGridTestSupport {
 
@@ -33,7 +37,8 @@ public class SendGridProducerTest extends SendGridTestSupport {
 
         template.sendBodyAndHeaders("direct:start", "Message ", headers);
 
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
+
     }
 
     @Test
@@ -49,7 +54,7 @@ public class SendGridProducerTest extends SendGridTestSupport {
             template.requestBodyAndHeaders("direct:start", "Message ", headers);
         } catch (CamelExecutionException e) {
             assertIsInstanceOf(IOException.class, e.getCause());
-            assertEquals("failed request", e.getMessage(), e.getMessage());
+            assertTrue(e.getMessage().contains("Exception occurred during execution on the exchange"), e.getMessage());
         }
     }
 

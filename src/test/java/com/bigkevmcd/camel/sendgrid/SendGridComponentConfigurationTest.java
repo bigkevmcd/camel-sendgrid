@@ -1,11 +1,11 @@
 package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.SendGrid;
-import org.apache.camel.impl.JndiRegistry;
-import org.apache.camel.impl.PropertyPlaceholderDelegateRegistry;
-import org.apache.camel.test.junit4.CamelTestSupport;
-import org.junit.Test;
+import org.apache.camel.test.junit5.CamelTestSupport;
+import org.junit.jupiter.api.Test;
 
+import static junit.framework.TestCase.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class SendGridComponentConfigurationTest extends CamelTestSupport {
@@ -38,16 +38,23 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
         assertTrue(endpoint.getConfiguration().getBccAddresses().contains("bcc2@example.com"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createEndpointWithoutSourceName() throws Exception {
         SendGridComponent component = new SendGridComponent(context);
-        component.createEndpoint("sendgrid:// ");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            component.createEndpoint("sendgrid:// ");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void createEndpointWithoutApiKeyConfiguration() throws Exception {
+    @Test
+    public void createEndpointWithoutApiKeyConfiguration() {
         SendGridComponent component = new SendGridComponent(context);
-        component.createEndpoint("sendgrid://from@example.com");
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            component.createEndpoint("sendgrid://from@example.com");
+        });
     }
 
     @Test
@@ -74,8 +81,7 @@ public class SendGridComponentConfigurationTest extends CamelTestSupport {
     public void createEndpointWithProvidedClient() throws Exception {
         SendGrid mock = mock(SendGrid.class);
 
-        ((JndiRegistry) ((PropertyPlaceholderDelegateRegistry) context.getRegistry()).getRegistry())
-                .bind("sendGridClient", mock);
+        context.getRegistry().bind("sendGridClient", mock);
 
         SendGridComponent component = new SendGridComponent(context);
         SendGridEndpoint endpoint = (SendGridEndpoint) component.createEndpoint("sendgrid://from@example.com?"

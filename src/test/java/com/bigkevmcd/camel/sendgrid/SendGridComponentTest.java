@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SendGridComponentTest extends SendGridTestSupport {
