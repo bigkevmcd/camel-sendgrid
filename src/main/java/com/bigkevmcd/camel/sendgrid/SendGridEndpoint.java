@@ -2,9 +2,9 @@ package com.bigkevmcd.camel.sendgrid;
 
 import com.sendgrid.SendGrid;
 import org.apache.camel.*;
-import org.apache.camel.impl.DefaultEndpoint;
 import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
+import org.apache.camel.support.DefaultEndpoint;
 
 /**
  * SendGrid Endpoint<br/>
