@@ -28,8 +28,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <camel.version>2.24.0</camel.version>
-        <sendgrid.version>4.3.0</sendgrid.version>
-        <mockito.version>2.28.2</mockito.version>
+        <sendgrid.version>4.9.3</sendgrid.version>
+        <mockito.version>5.3.0</mockito.version>
     </properties>
 
     <dependencies>
@@ -66,8 +66,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>9</source>
+                    <target>9</target>
                 </configuration>
             </plugin>
         </plugins>

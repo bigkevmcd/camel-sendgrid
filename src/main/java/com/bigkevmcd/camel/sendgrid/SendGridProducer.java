@@ -1,6 +1,12 @@
 package com.bigkevmcd.camel.sendgrid;
 
-import com.sendgrid.*;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.Personalization;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 
