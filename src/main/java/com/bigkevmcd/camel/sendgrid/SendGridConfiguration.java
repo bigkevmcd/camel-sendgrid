@@ -87,8 +87,18 @@ public class SendGridConfiguration implements Cloneable {
         return bccAddresses;
     }
 
+    /**
+     * Set BCC addresses from a comma-separated string.
+     * @param bccAddresses comma-separated email addresses
+     */
+    public void setBccAddressesFromString(String bccAddresses) {
+        if (bccAddresses != null && !bccAddresses.trim().isEmpty()) {
+            this.bccAddresses = Arrays.asList(bccAddresses.split(","));
+        }
+    }
+
     public void setBccAddresses(String bccAddresses) {
-        this.bccAddresses = Arrays.asList(bccAddresses.split(","));
+        setBccAddressesFromString(bccAddresses);
     }
 
     public void setBccAddresses(List<String> bccAddresses) {
@@ -102,12 +112,8 @@ public class SendGridConfiguration implements Cloneable {
     /**
      * To use the provided SendGrid as the client.
      */
-    public void setSendGridClient(SendGrid sendgrid) {
-        this.sendGridClient = sendgrid;
-    }
-
-    public void setSendgridClient(String client) {
-        this.sendGridClient = null;
+    public void setSendGridClient(SendGrid sendGridClient) {
+        this.sendGridClient = sendGridClient;
     }
 
     public SendGridConfiguration copy() {

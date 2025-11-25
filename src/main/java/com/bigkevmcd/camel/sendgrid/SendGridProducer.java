@@ -20,16 +20,27 @@ import java.util.regex.Pattern;
  */
 class SendGridProducer extends DefaultProducer {
     private transient String sendGridProducerToString;
+
+    /**
+     * Pattern to sanitize API keys in URIs for logging.
+     * Matches apiKey parameters (case-insensitive) and replaces their values.
+     */
     private static final Pattern SECRET = Pattern.compile("([?&][^=]*(?:apiKey)[^=]*)=([^&]*)", Pattern.CASE_INSENSITIVE);
 
     SendGridProducer(SendGridEndpoint endpoint) {
         super(endpoint);
     }
 
+    /**
+     * Process the exchange by sending an email through SendGrid.
+     *
+     * @param exchange the Camel exchange containing the message
+     * @throws Exception if processing fails
+     */
     @Override
     public void process(Exchange exchange) throws Exception {
         Request request;
-        if ((exchange.getIn().getBody() instanceof Mail)) {
+        if (exchange.getIn().getBody() instanceof Mail) {
             request = createMailRequest((Mail) exchange.getIn().getBody());
         } else {
             Mail mail = createMailRequest(exchange);
@@ -52,9 +63,11 @@ class SendGridProducer extends DefaultProducer {
         Content content = new Content("text/plain", exchange.getIn().getBody(String.class));
         Mail mail = new Mail(from, subject, to, content);
 
-        determineBccAddresses(exchange).ifPresent((bccAddresses) -> {
-            for(String address: bccAddresses) {
-                mail.getPersonalization().add(createBcc(address));
+        determineBccAddresses(exchange).ifPresent(bccAddresses -> {
+            if (!bccAddresses.isEmpty()) {
+                for (String address : bccAddresses) {
+                    mail.getPersonalization().add(createBcc(address));
+                }
             }
         });
         return mail;
@@ -63,7 +76,7 @@ class SendGridProducer extends DefaultProducer {
     private Request createMailRequest(Mail mail) throws IOException {
         Request request = new Request();
         request.setMethod(Method.POST);
-        request.setEndpoint("mail/send");
+        request.setEndpoint(SendGridConstants.MAIL_SEND_ENDPOINT);
         request.setBody(mail.build());
         return request;
     }
@@ -75,10 +88,7 @@ class SendGridProducer extends DefaultProducer {
 
     private String determineFrom(Exchange exchange) {
         String from = exchange.getIn().getHeader(SendGridConstants.FROM, String.class);
-        if (from == null) {
-            from = getConfiguration().getFrom();
-        }
-        return from;
+        return from != null ? from : getConfiguration().getFrom();
     }
 
     private Email determineTo(Exchange exchange) {
@@ -91,12 +101,10 @@ class SendGridProducer extends DefaultProducer {
 
     private String determineSubject(Exchange exchange) {
         String subject = exchange.getIn().getHeader(SendGridConstants.SUBJECT, String.class);
-        if (subject == null) {
-            subject = getConfiguration().getSubject();
-        }
-        return subject;
+        return subject != null ? subject : getConfiguration().getSubject();
     }
 
+    @SuppressWarnings("unchecked")
     private Optional<List<String>> determineBccAddresses(Exchange exchange) {
         List<String> bccAddresses = exchange.getIn().getHeader(SendGridConstants.BCC_ADDRESSES, List.class);
         if (bccAddresses == null) {

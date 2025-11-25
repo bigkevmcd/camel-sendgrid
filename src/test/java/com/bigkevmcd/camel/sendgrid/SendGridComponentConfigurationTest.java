@@ -4,7 +4,6 @@ import com.sendgrid.SendGrid;
 import org.apache.camel.test.junit5.CamelTestSupport;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertSame;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 

@@ -14,4 +14,9 @@ public interface SendGridConstants {
     String BCC_ADDRESSES = "CamelSendGridBcc";
 
     String RESPONSE_MESSAGE_ID = "X-Message-Id";
+
+    /**
+     * SendGrid API endpoint for sending mail.
+     */
+    String MAIL_SEND_ENDPOINT = "mail/send";
 }

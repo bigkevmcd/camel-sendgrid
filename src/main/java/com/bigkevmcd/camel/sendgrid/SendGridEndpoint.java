@@ -55,6 +55,13 @@ public class SendGridEndpoint extends DefaultEndpoint {
                 : createSendGridClient();
     }
 
+    @Override
+    protected void doStop() throws Exception {
+        // SendGrid client doesn't require explicit cleanup
+        sendGridClient = null;
+        super.doStop();
+    }
+
     private SendGrid createSendGridClient() {
         return new SendGrid(configuration.getApiKey());
     }

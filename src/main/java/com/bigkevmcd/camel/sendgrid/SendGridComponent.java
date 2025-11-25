@@ -26,11 +26,20 @@ public class SendGridComponent extends DefaultComponent {
         this.configuration = new SendGridConfiguration();
     }
 
+    /**
+     * Creates a SendGrid endpoint.
+     *
+     * @param uri the endpoint URI
+     * @param remaining the remaining part of the URI (from address)
+     * @param parameters the endpoint parameters
+     * @return the created endpoint
+     * @throws Exception if endpoint creation fails
+     */
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
         SendGridConfiguration configuration = this.configuration.copy();
         setProperties(configuration, parameters);
 
-        if (remaining == null || remaining.trim().length() == 0) {
+        if (remaining == null || remaining.trim().isEmpty()) {
             throw new IllegalArgumentException("From must be specified.");
         }
         configuration.setFrom(remaining);
