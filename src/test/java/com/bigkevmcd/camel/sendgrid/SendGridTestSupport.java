@@ -5,7 +5,6 @@ import com.sendgrid.SendGrid;
 import org.apache.camel.BindToRegistry;
 
 import org.apache.camel.test.junit5.CamelTestSupport;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,12 +15,7 @@ class SendGridTestSupport extends CamelTestSupport {
     static final String MESSAGE_ID = "kA5kcHA8SVGtVh5S9rAUew";
 
     @BindToRegistry("sendGridClient")
-    protected SendGrid mockSendGrid;
-    @BeforeEach
-    public void setUp() throws Exception {
-        mockSendGrid = mock(SendGrid.class);
-        super.setUp();
-    }
+    protected SendGrid mockSendGrid = mock(SendGrid.class);
 
     Response createResponse() {
         Map<String, String> headers = new HashMap<>();
