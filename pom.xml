@@ -27,7 +27,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camel.version>4.9.0</camel.version>
+        <camel.version>4.10.2</camel.version>
         <sendgrid.version>4.10.3</sendgrid.version>
         <mockito.version>5.14.2</mockito.version>
         <junit-jupiter.version>5.11.3</junit-jupiter.version>
